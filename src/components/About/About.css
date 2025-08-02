@@ -1,0 +1,127 @@
+.about-container {
+  padding: 6rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+  position: relative;
+  display: inline-block;
+}
+
+.about-container h2::after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 4px;
+  bottom: -10px;
+  left: 20%;
+  background-color: var(--primary-color);
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  text-align: left;
+}
+
+.about-text h3 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.about-text p strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.skills-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.skills-column {
+  flex: 1;
+  background-color: var(--card-background);
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.skills-column h4 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.skills-column ul {
+  list-style: none;
+}
+
+.skills-column ul li {
+  color: #bbb;
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 20px;
+}
+
+.skills-column ul li::before {
+  content: '✓';
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.curriculum-section {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.curriculum-section h4 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.curriculum-section p {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+}
+
+.curriculum-image {
+    max-width: 250px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.curriculum-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .skills-section {
+    flex-direction: column;
+  }
+}
