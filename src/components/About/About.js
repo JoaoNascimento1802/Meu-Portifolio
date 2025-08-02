@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Importando o PDF do currículo e a imagem de preview
-import curriculumPdf from '../../assets/JoaoEmanuel-CV.pdf';
+import curriculumPdf from '../../assets/JoaoEmanuel_CV.pdf';
 import curriculumPreviewImg from '../../assets/images/curriculum-preview.png';
 
 
