@@ -64,21 +64,21 @@ O portfólio foi construído com base nas melhores práticas de desenvolvimento 
    cd Meu-Portifolio
 Instale as dependências do projeto:
 
-Bash
+2. Bash
 
-npm install
-Execute a aplicação em modo de desenvolvimento:
+-npm install
+-Execute a aplicação em modo de desenvolvimento:
 
-Bash
+-Bash
 
-npm start
-A aplicação estará disponível em seu navegador no endereço:
-http://localhost:3000
+3. npm start
+-A aplicação estará disponível em seu navegador no endereço:
+-http://localhost:3000
 
 ### 👨‍💻 Autor
 Este projeto foi inteiramente desenvolvido e é mantido por:
 
-João Emanuel - @JoaoNascimento1802
+-João Emanuel - @JoaoNascimento1802
 
 ### 📄 Propósito
 Este projeto é para fins de portfólio, demonstrando minhas habilidades na construção de aplicações web interativas e visualmente agradáveis com React e tecnologias modernas de frontend.
