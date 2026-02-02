@@ -1,58 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globais para o corpo da página */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #000;
-  color: #fff;
-  font-family: sans-serif;
+  @apply bg-black text-white font-sans antialiased;
+  overflow-x: hidden;
 }
 
-/* Animação para o carrossel de ícones */
-@keyframes infinite-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+* {
+  scrollbar-color: #3b3b3b #0f0f0f;
+  scrollbar-width: thin;
 }
 
-.animate-infinite-scroll {
-  animation: infinite-scroll 40s linear infinite;
+main:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 3px;
 }
 
-/* Animação de fade-in para as seções */
-@keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-}
-
-.fade-in {
-    animation: fade-in 0.7s ease-out forwards;
-}
-
-/* --- NOVAS ANIMAÇÕES DE SCROLL ADICIONADAS --- */
-@keyframes scroll-fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-.scroll-fade-in-up {
-  /* Começa invisível */
-  opacity: 0;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.scroll-fade-in-up.is-visible {
-  /* Aplica a animação quando a classe 'is-visible' é adicionada */
-  animation: scroll-fade-in-up 0.8s ease-out forwards;
+::-webkit-scrollbar-track {
+  background: #0f0f0f; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/* Selection color */
+::selection {
+  background-color: #8b5cf6;
+  color: white;
 }

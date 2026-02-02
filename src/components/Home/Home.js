@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { TypeAnimation } from 'react-type-animation';
+
+// Importando a foto de perfil
+import profilePhoto from '../../assets/images/profile-photo.jpg';
 
 // Importando os ícones da pasta assets
 import javaUrl from '../../assets/icons/java.svg';
@@ -15,7 +20,7 @@ import ubuntuUrl from '../../assets/icons/ubuntu.svg';
 import windowsUrl from '../../assets/icons/windows.svg';
 import eclipseUrl from '../../assets/icons/eclipse.svg';
 
-// Ícones para links e seções
+// Ícones SVG inline para botões
 const icons = {
   githubLink: (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -35,46 +40,93 @@ const icons = {
       <polyline points="12 5 19 12 12 19"></polyline>
     </svg>
   ),
-  code: (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+  shield: (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
   ),
-  puzzle: (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M14 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 1 2 2h2a2 2 0 0 0 2-2V7z"></path><path d="M10 21v-2a2 2 0 0 1-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 1 2-2z"></path><path d="M21 14h-2a2 2 0 0 1-2-2v-2a2 2 0 0 0-2-2h-2a2 2 0 0 1-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2z"></path></svg>
+  server: (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
   ),
-  brainCircuit: (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 2a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 12 2z"></path><path d="M12 15a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 12 15z"></path><path d="M5 12a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 5 12z"></path><path d="M19 12a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 19 12z"></path><path d="M12 9a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 12 9z"></path><path d="M5 5a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 5 5z"></path><path d="M19 5a2.5 2.5 0 0 0-2.5 2.5v.5a2.5 2.5 0 0 0 5 0v-.5A2.5 2.5 0 0 0 19 5z"></path><path d="M9.5 5a2.5 2.5 0 0 0 5 0"></path><path d="M9.5 19a2.5 2.5 0 0 0 5 0"></path><path d="M2.5 9.5a2.5 2.5 0 0 1 5 0"></path><path d="M16.5 9.5a2.5 2.5 0 0 1 5 0"></path></svg>
-  ),
+  cpu: (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+  )
 };
 
-// Hook customizado para observar a interseção (animação de scroll)
-const useIntersectionObserver = (options) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const elementRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.unobserve(entry.target); // Para a animação não repetir
-      }
-    }, options);
-
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
+const SpotlightCard = ({ title, description, icon: Icon, delay }) => {
+    const divRef = useRef(null);
+    const [isFocused, setIsFocused] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [opacity, setOpacity] = useState(0);
+  
+    const handleMouseMove = (e) => {
+      if (!divRef.current || isFocused) return;
+  
+      const div = divRef.current;
+      const rect = div.getBoundingClientRect();
+  
+      setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     };
-  }, [options]);
-
-  return [elementRef, isVisible];
+  
+    const handleFocus = () => {
+      setIsFocused(true);
+      setOpacity(1);
+    };
+  
+    const handleBlur = () => {
+      setIsFocused(false);
+      setOpacity(0);
+    };
+  
+    const handleMouseEnter = () => {
+      setOpacity(1);
+    };
+  
+    const handleMouseLeave = () => {
+      setOpacity(0);
+    };
+  
+    return (
+      <motion.div
+        ref={divRef}
+        onMouseMove={handleMouseMove}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: delay, duration: 0.5 }}
+        className="relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/50 px-8 py-16 shadow-2xl"
+      >
+        <div
+          className="pointer-events-none absolute -inset-px transition duration-300"
+          style={{
+            opacity,
+            background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(139, 92, 246, 0.15), transparent 40%)`,
+          }}
+        />
+        <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="mb-6 p-4 bg-gray-800/50 rounded-2xl border border-gray-700/50 shadow-inner">
+                <Icon className="h-10 w-10 text-purple-500" />
+            </div>
+            <h3 className="mb-4 text-2xl font-bold text-gray-100">{title}</h3>
+            <p className="text-gray-400 leading-relaxed">{description}</p>
+        </div>
+      </motion.div>
+    );
 };
 
+const Home = () => {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    
+    useEffect(() => {
+        const updateMousePosition = (e) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', updateMousePosition);
+        return () => window.removeEventListener('mousemove', updateMousePosition);
+    }, []);
 
-const Home = ({ setActiveSection }) => {
     const skills = [
         { name: 'Java', iconSrc: javaUrl }, { name: 'Spring Boot', iconSrc: springbootUrl },
         { name: 'C++', iconSrc: cplusplusUrl }, { name: 'MySQL', iconSrc: mysqlUrl },
@@ -87,119 +139,174 @@ const Home = ({ setActiveSection }) => {
     
     const extendedSkills = [...skills, ...skills];
 
-    // Criando refs e estados para cada elemento que será animado
-    const [summaryRef, summaryIsVisible] = useIntersectionObserver({ threshold: 0.3 });
-    const [philosophyRef, philosophyIsVisible] = useIntersectionObserver({ threshold: 0.2 });
-    const [card1Ref, card1IsVisible] = useIntersectionObserver({ threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
-    const [card2Ref, card2IsVisible] = useIntersectionObserver({ threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
-    const [card3Ref, card3IsVisible] = useIntersectionObserver({ threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
-
     return (
-        // O componente agora é um container para múltiplas seções
-        <div>
-            {/* --- SEÇÃO 1: APRESENTAÇÃO INICIAL --- */}
-            <section id="home" className="min-h-screen bg-black text-white flex flex-col justify-center items-center pt-24 pb-12 px-4">
-                <div className="text-center max-w-4xl mx-auto">
-                    <h1 className="text-5xl md:text-7xl font-bold mb-4">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-700">
-                            João Emanuel Nascimento
-                        </span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-gray-300 mb-6">
-                        Desenvolvedor Backend Java | Spring Boot
-                    </p>
-                    <p className="max-w-2xl mx-auto text-gray-400 mb-8 leading-relaxed">
-                        Olá! Sou um desenvolvedor de 17 anos recém-formado pelo SENAI, apaixonado por transformar desafios complexos em software funcional e eficiente. Meu foco é construir soluções robustas e escaláveis com Java e o ecossistema Spring.
-                    </p>
-                    <div className="flex justify-center items-center gap-4 mb-12">
-                        <button 
-                            onClick={() => setActiveSection('projetos')}
-                            className="bg-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+        <div className="overflow-hidden relative bg-black">
+            <div 
+                className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+                style={{
+                    background: `radial-gradient(700px at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.08), transparent 70%)`
+                }}
+            ></div>
+
+            <section id="home" className="min-h-screen flex flex-col justify-center items-center pt-28 pb-16 px-4 relative z-10">
+                <div className="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-purple-900/20 rounded-full blur-[120px] animate-blob mix-blend-screen -z-10"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-blue-900/20 rounded-full blur-[120px] animate-blob [animation-delay:2000ms] mix-blend-screen -z-10"></div>
+
+                <div className="max-w-7xl mx-auto w-full">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+                        {/* Conteúdo à esquerda */}
+                        <div className="flex-1 text-center lg:text-left">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2 text-xs md:text-sm font-semibold uppercase tracking-wider text-purple-300 mb-6">
+                                    Disponível para oportunidades
+                                </div>
+                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-white leading-tight">
+                                    João Emanuel
+                                    <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+                                        Nascimento
+                                    </span>
+                                </h1>
+                            </motion.div>
+                            
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.3, duration: 0.8 }}
+                                className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 h-12"
+                            >
+                                <TypeAnimation
+                                    sequence={[
+                                        'Desenvolvedor Backend',
+                                        2000,
+                                        'Especialista em Java & Spring Boot',
+                                        2000,
+                                        'Segurança da Informação',
+                                        2000,
+                                    ]}
+                                    wrapper="span"
+                                    speed={50}
+                                    repeat={Infinity}
+                                />
+                            </motion.div>
+
+                            <motion.p 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.6, duration: 0.8 }}
+                                className="text-gray-400 mb-10 leading-relaxed text-base md:text-lg max-w-2xl mx-auto lg:mx-0"
+                            >
+                                Olá! Sou um desenvolvedor backend recém-formado pelo SENAI e estudante de Cibersegurança na FIAP, apaixonado por transformar desafios complexos em software funcional e eficiente. Meu foco é construir soluções robustas e escaláveis com Java e o ecossistema Spring.
+                            </motion.p>
+                            
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.9, duration: 0.5 }}
+                                className="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-6"
+                            >
+                                <a 
+                                    href="#projetos"
+                                    className="bg-purple-600 text-white font-bold py-3.5 px-8 rounded-full hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 flex items-center gap-2"
+                                >
+                                    Ver Projetos
+                                    <icons.arrowRight className="w-5 h-5" />
+                                </a>
+                                <a 
+                                    href="#contato"
+                                    className="bg-white/5 text-white font-semibold py-3.5 px-8 rounded-full border border-white/10 hover:border-purple-500/40 hover:text-purple-300 transition-all duration-300"
+                                >
+                                    Falar comigo
+                                </a>
+                                <div className="flex gap-4">
+                                    <a href="https://www.linkedin.com/in/joaonascimento1802" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-400 hover:text-white hover:bg-purple-900/50 p-3 rounded-full transition-all duration-300">
+                                        <icons.linkedin className="w-6 h-6" />
+                                    </a>
+                                    <a href="https://github.com/JoaoNascimento1802" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-gray-400 hover:text-white hover:bg-purple-900/50 p-3 rounded-full transition-all duration-300">
+                                        <icons.githubLink className="w-6 h-6" />
+                                    </a>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Foto à direita */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="flex-shrink-0"
                         >
-                            Meus Projetos
-                            <icons.arrowRight className="w-5 h-5" />
-                        </button>
-                        <a href="https://www.linkedin.com/in/joaonascimento1802" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-500 transition-colors duration-300 p-2">
-                            <icons.linkedin className="w-8 h-8" />
-                        </a>
-                        <a href="https://github.com/JoaoNascimento1802" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-500 transition-colors duration-300 p-2">
-                            <icons.githubLink className="w-8 h-8" />
-                        </a>
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+                                <div className="relative p-2 bg-purple-900/80 rounded-full">
+                                    <div className="p-1 bg-purple-400/60 rounded-full">
+                                        <img 
+                                            src={profilePhoto} 
+                                            alt="João Emanuel Nascimento" 
+                                            className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover shadow-2xl shadow-purple-900/50"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
-                <div className="w-full max-w-6xl mx-auto mt-12 overflow-hidden relative">
-                    <h3 className="text-center text-lg font-semibold text-gray-500 uppercase tracking-widest mb-6">Minhas Habilidades</h3>
-                    <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent z-10"></div>
-                    <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent z-10"></div>
-                    <div className="flex animate-infinite-scroll">
+
+                <div className="w-full max-w-7xl mx-auto mt-20 overflow-hidden relative">
+                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10"></div>
+                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10"></div>
+                    <div className="flex animate-infinite-scroll hover:[animation-play-state:paused]">
                         {extendedSkills.map((skill, index) => (
-                            <div key={index} className="flex-shrink-0 w-48 mx-4 flex flex-col items-center justify-center p-4 bg-gray-900/50 rounded-lg">
-                                <img src={skill.iconSrc} alt={`${skill.name} logo`} className="w-12 h-12" />
-                                <span className="mt-2 text-sm font-medium text-gray-400">{skill.name}</span>
+                            <div key={index} className="flex-shrink-0 w-40 mx-6 flex flex-col items-center justify-center group cursor-pointer">
+                                <div className="p-4 bg-gray-900/60 rounded-2xl border border-gray-800 group-hover:border-purple-500/50 transition-colors duration-300">
+                                    <img src={skill.iconSrc} alt={`${skill.name} logo`} className="w-12 h-12 filter brightness-0 invert opacity-70 group-hover:opacity-100 transition-all duration-300" />
+                                </div>
+                                <span className="mt-3 text-sm font-medium text-gray-500 group-hover:text-purple-400 transition-colors">{skill.name}</span>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* --- SEÇÃO 2: CARD DE RESUMO --- */}
-            <section className="py-24 bg-gray-900/50">
-                <div ref={summaryRef} className={`container mx-auto max-w-4xl px-4 scroll-fade-in-up ${summaryIsVisible ? 'is-visible' : ''}`}>
-                    <div className="bg-gray-900 border border-purple-800/50 rounded-xl p-8 shadow-2xl shadow-purple-900/20">
-                        <h2 className="text-3xl font-bold text-center mb-4">
-                            Um Desenvolvedor <span className="text-purple-400">Focado em Resultados</span>
-                        </h2>
-                        <p className="text-center text-gray-400 leading-relaxed">
-                            Minha jornada na tecnologia é movida pela curiosidade e pelo desejo de construir. No SENAI, solidifiquei minha paixão em uma carreira, aprendendo não apenas a codificar, mas a pensar como um engenheiro de software: analisando problemas, projetando sistemas e colaborando em equipe para entregar valor real. Estou preparado para aplicar minha energia e minhas habilidades para criar produtos de alta qualidade.
+            {/* --- SEÇÃO 2: FOCO E DIFERENCIAIS (Substituindo Filosofia/Resumo) --- */}
+            <section className="py-24 relative z-10">
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-4xl font-bold mb-4 text-white">O que eu <span className="text-purple-500">Entrego</span></h2>
+                        <div className="w-20 h-1 bg-purple-600 mx-auto rounded-full mb-6"></div>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                            Combinando desenvolvimento de software robusto com práticas modernas de segurança e performance.
                         </p>
-                    </div>
-                </div>
-            </section>
+                    </motion.div>
 
-            {/* --- SEÇÃO 3: FILOSOFIA DE DESENVOLVIMENTO --- */}
-            <section className="py-24 bg-black">
-                <div className="container mx-auto max-w-6xl px-4">
-                    <div ref={philosophyRef} className={`text-center mb-16 scroll-fade-in-up ${philosophyIsVisible ? 'is-visible' : ''}`}>
-                        <h2 className="text-4xl font-bold">Minha Filosofia de Desenvolvimento</h2>
-                        <p className="text-gray-500 mt-2">Os três pilares que guiam meu trabalho.</p>
-                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {/* Card 1 */}
-                        <div ref={card1Ref} className={`bg-gray-900 p-8 rounded-lg text-center scroll-fade-in-up ${card1IsVisible ? 'is-visible' : ''}`} style={{animationDelay: '0.1s'}}>
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-purple-900/50 p-4 rounded-full">
-                                    <icons.code className="w-8 h-8 text-purple-400" />
-                                </div>
-                            </div>
-                            <h3 className="text-xl font-bold mb-2">Código Robusto e Escalável</h3>
-                            <p className="text-gray-400">
-                                Escrevo código pensando no futuro. Prezo pela clareza, manutenibilidade e por arquiteturas que suportem o crescimento do negócio.
-                            </p>
-                        </div>
-                        {/* Card 2 */}
-                        <div ref={card2Ref} className={`bg-gray-900 p-8 rounded-lg text-center scroll-fade-in-up ${card2IsVisible ? 'is-visible' : ''}`} style={{animationDelay: '0.3s'}}>
-                             <div className="flex justify-center mb-4">
-                                <div className="bg-purple-900/50 p-4 rounded-full">
-                                    <icons.puzzle className="w-8 h-8 text-purple-400" />
-                                </div>
-                            </div>
-                            <h3 className="text-xl font-bold mb-2">Solução de Problemas</h3>
-                            <p className="text-gray-400">
-                                Antes de escrever a primeira linha de código, foco em entender profundamente o problema a ser resolvido para entregar a solução mais eficaz.
-                            </p>
-                        </div>
-                        {/* Card 3 */}
-                        <div ref={card3Ref} className={`bg-gray-900 p-8 rounded-lg text-center scroll-fade-in-up ${card3IsVisible ? 'is-visible' : ''}`} style={{animationDelay: '0.5s'}}>
-                             <div className="flex justify-center mb-4">
-                                <div className="bg-purple-900/50 p-4 rounded-full">
-                                    <icons.brainCircuit className="w-8 h-8 text-purple-400" />
-                                </div>
-                            </div>
-                            <h3 className="text-xl font-bold mb-2">Aprendizado Contínuo</h3>
-                            <p className="text-gray-400">
-                                A tecnologia evolui constantemente e eu também. Estou sempre estudando novas ferramentas, conceitos e melhores práticas para me aprimorar.
-                            </p>
-                        </div>
+                        <SpotlightCard 
+                            title="Segurança by Design"
+                            description="Integração de práticas de segurança desde a concepção do código, utilizando conhecimentos acadêmicos em Cibersegurança da FIAP."
+                            icon={icons.shield}
+                            delay={0}
+                        />
+                        <SpotlightCard 
+                            title="Backend Robusto"
+                            description="Desenvolvimento de APIs RESTful escaláveis e de alta disponibilidade com Java e Spring Boot, focadas em manutenibilidade."
+                            icon={icons.server}
+                            delay={0.2}
+                        />
+                        <SpotlightCard 
+                            title="Arquitetura Limpa"
+                            description="Aplicação de Design Patterns e princípios SOLID para criar sistemas que crescem sem acumular dívida técnica."
+                            icon={icons.cpu}
+                            delay={0.4}
+                        />
                     </div>
                 </div>
             </section>
