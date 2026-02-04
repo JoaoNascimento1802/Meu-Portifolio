@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
 // Importando a foto de perfil
-import profilePhoto from '../../assets/images/profile-photo.jpg';
+import profilePhoto from '../../assets/images/profile-photo.png';
 
 // Importando os ícones da pasta assets
 import javaUrl from '../../assets/icons/java.svg';
