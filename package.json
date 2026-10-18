@@ -24,7 +24,10 @@
   "eslintConfig": {
     "extends": [
       "react-app"
-    ]
+    ],
+    "rules": {
+      "unicode-bom": "off"
+    }
   },
   "browserslist": {
     "production": [
