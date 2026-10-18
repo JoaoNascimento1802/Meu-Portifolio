@@ -1,0 +1,123 @@
+.projects-container {
+  padding: 6rem 5%;
+  background-color: var(--secondary-color);
+  text-align: center;
+}
+
+.projects-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+  position: relative;
+  display: inline-block;
+}
+
+.projects-container h2::after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 4px;
+  bottom: -10px;
+  left: 20%;
+  background-color: var(--primary-color);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.project-card {
+  background-color: var(--card-background);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.card-content {
+  padding: 2rem;
+  transition: opacity 0.4s ease;
+}
+
+.project-card:hover .card-content {
+  opacity: 0;
+}
+
+.card-content h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-content p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.card-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(138, 43, 226, 0.95);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.project-card:hover .card-preview {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-preview h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.card-preview p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--text-color);
+  color: var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.repo-link:hover {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
