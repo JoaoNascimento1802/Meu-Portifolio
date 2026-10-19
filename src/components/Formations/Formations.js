@@ -6,13 +6,13 @@ const Formations = () => {
         {
             title: "Segurança Cibernética",
             institution: "FIAP",
-            period: "2024 - Cursando",
+            period: "2026 - Cursando",
             description: "Foco em proteção de infraestruturas, análise de vulnerabilidades, resposta a incidentes, ethical hacking e compliance em segurança da informação."
         },
         {
             title: "Técnico em Desenvolvimento de Sistemas",
             institution: "SENAI",
-            period: "Concluído em 2023",
+            period: "Concluído em 2025",
             description: "Projeto de Conclusão de Curso (TCC): PetVita. Desenvolvimento de sistemas escaláveis e seguros, programação orientada a objetos (Java), banco de dados (MySQL) e modelagem de software."
         }
     ];
